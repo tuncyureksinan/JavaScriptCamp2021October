@@ -1,5 +1,5 @@
-const amountOfNumbers = 10;
-const maxNumber = 50;
+const amountOfNumbers = 20;
+const maxNumber = 25;
 const minNumber = 1;
 let generatedNumbers = getNumbers(); 
 
@@ -26,11 +26,6 @@ function generateRandomNumber(min, max) {
 function primeNumber(...numbers) {
     let primeNumbers = [];
     
-    console.log("I have generated " + amountOfNumbers + " numbers between " + minNumber + " and " + maxNumber + " for you.");
-    console.log("");
-    console.log("Given numbers: " + numbers)
-    console.log("");
-    
     for (let i = 0; i < numbers.length; i++) {
       let isPrime = true;
         for (let j = 2; j < numbers[i]; j++) {
@@ -45,7 +40,11 @@ function primeNumber(...numbers) {
         }
     }
     
-    console.log("Prime numbers: " + primeNumbers)
+    return primeNumbers;
 }
 
-primeNumber(...generatedNumbers);
+    console.log("I have generated " + amountOfNumbers + " numbers between " + minNumber + " and " + maxNumber + " for you.");
+    console.log("");
+    console.log("Given numbers: " + generatedNumbers)
+    console.log("");
+    console.log("Prime numbers: " + primeNumber(...generatedNumbers))
