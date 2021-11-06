@@ -1,3 +1,7 @@
+// JavaScript ile istediğiniz kadar sayı parametre gönderebileceğiniz bir fonksiyon yazınız. 
+// Bu fonksiyona gönderdiğiniz her sayı için çıktı olarak asal olup olmadığını yazınız. 
+// (Araştırma konusu : şart blokları : if )
+
 const amountOfNumbers = 20;
 const maxNumber = 25;
 const minNumber = 1;

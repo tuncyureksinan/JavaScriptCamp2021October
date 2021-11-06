@@ -1,4 +1,6 @@
 console.log("Friendly numbers: https://en.wikipedia.org/wiki/Friendly_number");
+// Parametre olarak girilen iki sayının arkadaş sayılar olup olmadığını bulan programı yazınız. 
+// (Arkadaş sayılar için google)
 
 function getAbundancy(number) {
   let total = 0;
