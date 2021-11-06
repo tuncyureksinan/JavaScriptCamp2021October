@@ -47,8 +47,8 @@ function primeNumber(...numbers) {
     return primeNumbers;
 }
 
-    console.log("I have generated " + amountOfNumbers + " numbers between " + minNumber + " and " + maxNumber + " for you.");
-    console.log("");
-    console.log("Given numbers: " + generatedNumbers)
-    console.log("");
-    console.log("Prime numbers: " + primeNumber(...generatedNumbers))
+console.log("I have generated " + amountOfNumbers + " numbers between " + minNumber + " and " + maxNumber + " for you.");
+console.log("");
+console.log("Given numbers: " + generatedNumbers)
+console.log("");
+console.log("Prime numbers: " + primeNumber(...generatedNumbers))
