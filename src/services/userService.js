@@ -1,110 +1,109 @@
+import { MongoLogger } from "../crossCuttingConcerns/logging/logger.js";
 import { users } from "../data/users.js"
 import DataError from "../models/dataError.js"
 
+
 export default class UserService {
-    constructor(loggerService) {
-        this.employees = []
-        this.customers = []
-        this.errors = []
-        this.loggerService = loggerService
+
+    constructor(loggerService)  {
+        this.users = [];
+        this.customers = [];
+        this.employees = [];
+        this.errors = [];
+        this.loggerService = loggerService;
+    
+
+        this.requiredFields = [
+            'id',
+            'firstName',
+            'lastName',
+            'age',
+            'city'
+        ];
+
+        console.log("UserService yüklendi");
+    }
+
+    add(user) {
+        if (this.valid(user, this.requiredFields)) {
+            this.users.push(user);
+        } else {
+            this.log(user);
+        }
+    }
+
+    valid(user, requiredFields) {
+        let isValid = false;
+
+        for (const field of requiredFields) {
+            if (user[field] && this.validAge(user)) {
+                isValid = true;
+            } else {
+
+                this.errors.push(
+                    new DataError(`Validation problem. ${field} is required`, user));
+                
+                isValid = false;
+                continue; 
+            }
+        }
+
+        return isValid;
+    }
+
+    validAge(user) {
+        if (Number.isNaN(Number.parseInt(+user.age))) {
+            this.errors.push(new DataError(`Validation problem. ${user.age} is not a number`, user));
+            return false;
+        }
+
+        return true;
+    }
+
+    log(user) {
+        this.loggerService.log(user)
     }
 
     load() {
         for (const user of users) {
-            switch (user.type) {
-                case "customer":
-                    if (!this.checkCustomerValidityForErrors(user)) {
-                        this.customers.push(user)
-                    }
-                    break;
-                case "employee":
-                    if (!this.checkEmployeeValidityForErrors(user)) {
-                        this.employees.push(user)
-                    }
-                    break;
-                default:
-                    this.errors.push(new DataError("Wrong user type", user))
-                    break;
-            }
+            this.add(user);
         }
     }
 
-    //formik-yup
-    checkCustomerValidityForErrors(user) {
-        let requiredFields = "id firstName lastName age city".split(" ")
-        let hasErrors = false
-        for (const field of requiredFields) {
-            if (!user[field]) {
-                hasErrors = true
-                this.errors.push(
-                    new DataError(`Validation problem. ${field} is required`, user))
-            }
-        }
-
-        if (Number.isNaN(Number.parseInt(+user.age))) {
-            hasErrors = true
-            this.errors.push(new DataError(`Validation problem. ${user.age} is not a number`, user))
-        }
-
-        return hasErrors
+    list() {
+        return this.users;
     }
 
-    checkEmployeeValidityForErrors(user) {
-        let requiredFields = "id firstName lastName age city salary".split(" ")
-        let hasErrors = false
-        for (const field of requiredFields) {
-            if (!user[field]) {
-                hasErrors = true
-                this.errors.push(
-                    new DataError(`Validation problem. ${field} is required`, user))
-            }
-        }
-
-        if (Number.isNaN(Number.parseInt(user.age))) {
-            hasErrors = true
-            this.errors.push(new DataError(`Validation problem. ${user.age} is not a number`, user))
-        }
-        return hasErrors
+    getEmployees() {
+        return this.employees;
     }
 
-    add(user) {
-        switch (user.type) {
-            case "customer":
-                if (!this.checkCustomerValidityForErrors(user)) {
-                    this.customers.push(user)
-                }
-                break;
-            case "employee":
-                if (!this.checkEmployeeValidityForErrors(user)) {
-                    this.employees.push(user)
-                }
-                break;
-            default:
-                this.errors.push(
-                    new DataError("This user can not be added. Wrong user type", user))
-                break;
-        }
-        this.loggerService.log(user)
+    getUsers() {
+        return this.users;
     }
 
-    listCustomers() {
-        return this.customers
+    getCustomers() {
+        return this.customers;
     }
 
-    getCustomerById(id) {
-        return this.customers.find(u=>u.id ===id)
+    getErrors() {
+        return this.errors;
     }
 
-    getCustomersSorted(){
-        return this.customers.sort((customer1,customer2)=>{
-            if(customer1.firstName>customer2.firstName){
+    getById(id) {
+        return this.users.find(u=>u.id ===id);
+    }
+
+    getUsersSorted(){
+        return this.users.sort((user1, user2) => {
+            if(user1.firstName > user2.firstName){
                 return 1;
-            }else if(customer1.firstName===customer2.firstName){
+            } else if(user1.firstName === user2.firstName){
                 return 0;
             }else{
                 return -1
             }
-        })
+        });
     }
 
 }

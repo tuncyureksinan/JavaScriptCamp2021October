@@ -42,7 +42,7 @@ export const users = [
         firstName: "Mücahit",
         lastName: "Kaya",
         city: "Bolu",
-        age: 23,
+        age: 15,
         salary:17000,
         type: "employee"
     },
